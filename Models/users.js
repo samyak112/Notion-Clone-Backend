@@ -1,35 +1,27 @@
 const mongoose = require('mongoose')
+const ObjectID = mongoose.Types.ObjectId;
 
-const fileSchema = new mongoose.Schema({
-    FileName: { type: String, required: true },
-    Icon: { type: String, required: true },
-    Items: { type: Array, required: true }
-  });
+
+const default_template_1 = {
+  _id: new ObjectID(),
+  FileName:'Getting Started',
+  icon:'something',
+  items:[]
+}
+
+const default_template_2 = {
+  _id: new ObjectID(),
+  FileName:'Quick Note',
+  icon:'something',
+  items:[]
+}
 
 const users = mongoose.Schema({
     username:String,
     email:String,
-    authorized:false,
     profile_image:String,
     last_edited_file_id:{type:String , default:null},
-    files: { type: [fileSchema], default: [
-        {
-          FileName: "Journal",
-          Icon: "12",
-          Items: [
-            {
-              FileName: "SubJorunal",
-              Icon: "12",
-              Items: [{}],
-            }
-          ],
-        },
-        {
-          FileName: "Notes",
-          Icon: "12",
-          Items: [{}],
-        }
-      ] }
+    files:{type:Array , default:[default_template_1 , default_template_2]}
 })
 
 module.exports = mongoose.model('users', users)

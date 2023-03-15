@@ -6,7 +6,6 @@ const LastVisitedFile = async(req,res) => {
     const {email,name} = UserData
     const data = await user.find({ email: email })
     try{
-
         if(data[0].last_edited_file==null){
             res.json({status:200, data:data[0].files[0]._id})
         }

@@ -6,7 +6,12 @@ const GetAllFiles = async(req,res) => {
     const {email,name} = new_data
 
     const data = await user.find({ email: email })
-    res.json({username:name , data:data[0].files})
+    try{
+        res.json({username:name , data:data[0].files, status:200})
+    }
+    catch{
+        res.json({status:500})
+    }
 }
 
 module.exports = {

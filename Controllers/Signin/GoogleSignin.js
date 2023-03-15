@@ -24,36 +24,36 @@ const GoogleSignin = async (req, res) => {
     const jwt_token = jwt.sign({username:name ,email:email , profile_pic:picture},process.env.ACCESS_TOKEN)
 
     const data = await user.find({ email: email })
+    
     var InitialOpenedFile = null
-    // data[0].files[0]._id
 
     if (data.length == 0) {
         const response = await AddNewUser(email , name , picture);
+        const {status, FileId} = response
         
-        if(response==200){
-            // destructured inside this condition because i added file_id only in the else status code 200 in the AddNewUser function
-            const {status, FileId} = response
+        if(status==200){
             res.status(status).json({status:status, token: jwt_token , FileId:FileId})
         }
         else{
-            res.status(response).json({status:response})
+            res.status(status).json({status:status})
         }
     }
     else {
-        if (data[0].authorized == true) {
-
-            if(data[0].last_edited_file_id==null){
-                InitialOpenedFile = data[0].files[0]._id
+        try{
+            const {last_edited_file_id} = data[0]
+            if(last_edited_file_id==null){
+                InitialOpenedFile = files[0]._id
             }
             else{
-                InitialOpenedFile = data[0].last_edited_file_id
+                InitialOpenedFile = last_edited_file_id
             }
-
             res.status(201).json({ message: 'you are verified', status: 201, token: jwt_token , FileId:InitialOpenedFile });
         }
-        else {
-            res.status(422).json({ error: 'you are not verified yet', status: 422 });
+        catch{
+            res.status(500).json({ message: 'something went wrong', status: 500});
         }
+        
+        
     }
 
 }

@@ -20,8 +20,8 @@ const server = app.listen(port, () => {
 app.use('/google_signin', require('./Routes/Signin/GoogleSignin'));
 
 // Files
-app.use('/GetAllFiles' , require('./Routes/Files/GetAllFiles'))
-app.use('/AddFile' , require('./Routes/Files/AddFile'))
+app.use('/FileData' , require('./Routes/Files/FileData'))
+// app.use('/AddFile' , require('./Routes/Files/AddFile'))
 app.use('/lastvisitedfile' , require('./Routes/Files/LastVisitedFile'))
 
 // For Private Routes
