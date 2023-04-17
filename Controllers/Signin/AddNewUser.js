@@ -7,13 +7,15 @@ const ObjectID = mongoose.Types.ObjectId;
 function AddNewUser(email , name , picture) {
     return new Promise ((resolve , reject)=>{
 
+        const common_payload = { color: '#37352F', background: '#FFFFFF'}
+
         function content_data(ref_id , value_1 , value_2 , value_3){
             return(
                 { ref_id: ref_id, 
                     values: [
-                    {_id: new ObjectID(), value:value_1}, 
-                    {_id: new ObjectID(), value:value_2}, 
-                    {_id: new ObjectID(), value:value_3}
+                    { _id: new ObjectID(), ...common_payload, value:value_1, style:'heading_1'}, 
+                    { _id: new ObjectID(), ...common_payload, value:value_2, style:'heading_2'}, 
+                    { _id: new ObjectID(), ...common_payload, value:value_3, style:'heading_3'}
                 ]}
             )
         }

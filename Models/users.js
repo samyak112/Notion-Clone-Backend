@@ -5,14 +5,14 @@ const ObjectID = mongoose.Types.ObjectId;
 const default_template_1 = {
   _id: new ObjectID(),
   FileName:'Getting Started',
-  icon:'something',
+  icon:'📄',
   items:[]
 }
 
 const default_template_2 = {
   _id: new ObjectID(),
   FileName:'Quick Note',
-  icon:'something',
+  icon:'📌',
   items:[]
 }
 
