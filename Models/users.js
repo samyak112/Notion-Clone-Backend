@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
 const ObjectID = mongoose.Types.ObjectId;
-
+const uuid = require('uuid')
 
 const default_template_1 = {
-  _id: new ObjectID(),
+  _id: uuid.v4(),
   FileName:'Getting Started',
   icon:'📄',
-  items:[]
+  parent:null,
 }
 
 const default_template_2 = {
-  _id: new ObjectID(),
+  _id: uuid.v4(),
   FileName:'Quick Note',
   icon:'📌',
-  items:[]
+  parent:null,
 }
 
 const users = mongoose.Schema({

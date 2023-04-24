@@ -3,6 +3,7 @@ const content = require('../../Models/content')
 
 const GetFileData = async(req,res) => {
     const {FileId} = req.body
+    console.log(FileId)
     const FileData = await content.find({ ref_id: FileId })
 
     try{
