@@ -23,7 +23,6 @@ const AddFile = async(req,res) => {
         else{
             if(result.modifiedCount>0){
                 const new_content = await content.create(AddNewFileContent);
-                console.log(new_content)
 
                 res.json({status:200})
             }

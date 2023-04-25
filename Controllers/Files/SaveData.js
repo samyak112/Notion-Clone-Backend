@@ -1,32 +1,38 @@
-const jwt = require('jsonwebtoken')
-const user = require('../../Models/users')
-const content = require('../../Models/content')
-const mongoose = require('mongoose')
+const {UpdateContentDetails, UpdateUserDetails} = require('./SaveDataFunctions')
 
 const SaveData = async(req,res) => {
+    const new_data = req.data;
+    const {email} = new_data
     const {CoverPhotoData, BlockValues, FileName, Icon} = req.body.FinalPayload;
 
     let ChangeContent = {}
+    let ChangeFileDetails = {}
+    let ContentResponse = null
+    let UserResponse = null
+    
     if(CoverPhotoData !== null){
-        const {CoverPhoto, Position} = CoverPhotoData
-        ChangeContent = { $set: {'values':BlockValues, 'CoverPhoto':{value:CoverPhoto, Position} }}
+        const {value, Position} = CoverPhotoData
+        ChangeContent = { $set: {'values':BlockValues, 'CoverPhoto':{value, Position} }}
     }
     else{
         ChangeContent = { $set: {'values':BlockValues}}
     }
 
-    content.updateOne({'ref_id':req.body.ref_id},ChangeContent,function(err,result){
-        if (err) res.json({status:500})
-        else{
-            if(result.modifiedCount>0){
-                res.json({status:200})
-            }
-            else{
-                res.json({status:500})
-            }
-        }
-        console.log(result)
-    })
+    if(FileName != null){
+        ChangeFileDetails = { $set: {'files.$.FileName':FileName, 'files.$.icon':Icon}}
+        UserResponse = await UpdateUserDetails(req.body.ref_id,ChangeFileDetails,email)
+    }
+
+    ContentResponse = await UpdateContentDetails(req.body.ref_id, ChangeContent) 
+
+    if((UserResponse == null && ContentResponse == true) || (UserResponse == true && ContentResponse == true)){
+        res.json({status:200})
+    }
+    else{
+        res.json({status:500})
+    }
+
+    
 }
 
 module.exports = {

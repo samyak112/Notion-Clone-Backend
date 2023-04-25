@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const user = require('../../Models/users')
 
 const GetAllFiles = async(req,res) => {
