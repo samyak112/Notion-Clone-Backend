@@ -1,14 +1,11 @@
-const jwt = require('jsonwebtoken')
 const user = require('../../Models/users')
 const content = require('../../Models/content')
 const mongoose = require('mongoose')
-const ObjectID = mongoose.Types.ObjectId;
 const uuid = require('uuid')
 
 const AddFile = async(req,res) => {
     const new_data = req.data;
-    const {email,name} = new_data
-    // console.log(req.body)
+    const {email} = new_data
     const {FinalPayload, id} = req.body
     const {FileName, CoverPhotoData, BlockValues, Icon} = FinalPayload
 
@@ -23,8 +20,7 @@ const AddFile = async(req,res) => {
         else{
             if(result.modifiedCount>0){
                 const new_content = await content.create(AddNewFileContent);
-
-                res.json({status:200})
+                res.json({status:200, id:new_content.ref_id})
             }
             else{
                 res.json({status:500})
