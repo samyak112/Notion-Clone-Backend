@@ -9,12 +9,10 @@ const UpdateFileDetails = async(req,res) => {
 
     let payload = null
     if(type === 'icon'){
-        payload = { $set: {'files.$.icon':Item}}
-        console.log('this ran')
+        payload = { $set: {'files.$.icon':Item.NewIcon}}
     }
     else{
-        console.log('no this ran')
-        payload = { $set: {'files.$.FileName':Item}}
+        payload = { $set: {'files.$.FileName':Item.NewFileName}}
     }
     user.updateOne({'files._id':FileId},payload,function(err,result){
         if (err) res.json({status:500})

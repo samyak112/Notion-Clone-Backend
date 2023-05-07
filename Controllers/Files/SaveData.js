@@ -18,11 +18,17 @@ const SaveData = async(req,res) => {
         ChangeContent = { $set: {'values':BlockValues}}
     }
 
-    if(FileName != null){
-        ChangeFileDetails = { $set: {'files.$.FileName':FileName, 'files.$.icon':Icon}}
-        UserResponse = await UpdateUserDetails(req.body.ref_id,ChangeFileDetails,email)
+    if (FileName !== null || Icon !== null) {
+        const fileDetails = {};
+        if (FileName !== null) {
+          fileDetails['files.$.FileName'] = FileName;
+        }
+        if (Icon !== null) {
+          fileDetails['files.$.icon'] = Icon;
+        }
+        const ChangeFileDetails = { $set: fileDetails };
+        UserResponse = await UpdateUserDetails(req.body.ref_id, ChangeFileDetails, email);
     }
-
     ContentResponse = await UpdateContentDetails(req.body.ref_id, ChangeContent) 
 
     if((UserResponse == null && ContentResponse == true) || (UserResponse == true && ContentResponse == true)){
