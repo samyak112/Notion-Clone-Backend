@@ -16,7 +16,6 @@ const authentication = async(req,res,next)=>{
       next()
       
     } catch (err) {
-      console.log(err,'this that err')
       res.status(400).json({message:'Unauthorized User',status:400});
     }
   }

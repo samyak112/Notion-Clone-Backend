@@ -2,6 +2,7 @@ const content = require('../../Models/content');
 const user = require('../../Models/users')
 const mongoose = require('mongoose')
 const ObjectID = mongoose.Types.ObjectId;
+const uuid = require('uuid')
 
 
 function AddNewUser(email , name , picture) {
@@ -43,11 +44,26 @@ function AddNewUser(email , name , picture) {
             }
         }
 
+        const default_template_1 = {
+            _id: uuid.v4(),
+            FileName:'Getting Started',
+            icon:'📄',
+            parent:null,
+          }
+          
+          const default_template_2 = {
+            _id: uuid.v4(),
+            FileName:'Quick Note',
+            icon:'📌',
+            parent:null,
+          }
+
 
         let new_user = new user({ 
             username: name, 
             email:email, 
-            profile_image:picture
+            profile_image:picture,
+            files:[default_template_1, default_template_2]
         });
 
         new_user.save(async function (err, data) {
